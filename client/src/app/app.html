@@ -1,0 +1,37 @@
+<div class="layout">
+  <aside class="sidebar">
+    <a class="brand" routerLink="/free-search" aria-label="הלשכה המרכזית לסטטיסטיקה">
+      @if (!logoError()) {
+        <img src="/siteLogoE.png" alt="הלשכה המרכזית לסטטיסטיקה"
+             class="brand-logo" (error)="logoError.set(true)" />
+      }
+      <span class="brand-text">{{ title() }}</span>
+    </a>
+
+    <nav class="nav">
+      <a routerLink="/free-search" routerLinkActive="active">
+        <i class="pi pi-search"></i><span>חיפוש חופשי</span>
+      </a>
+      <a routerLink="/builder" routerLinkActive="active">
+        <i class="pi pi-sliders-h"></i><span>בניית שאילתה</span>
+      </a>
+      <a routerLink="/saved" routerLinkActive="active">
+        <i class="pi pi-bookmark"></i><span>שאילתות שמורות</span>
+      </a>
+    </nav>
+
+    <p-button
+      class="theme-toggle"
+      [text]="true"
+      [rounded]="true"
+      severity="secondary"
+      [icon]="dark() ? 'pi pi-sun' : 'pi pi-moon'"
+      [label]="dark() ? 'מצב בהיר' : 'מצב כהה'"
+      [ariaLabel]="dark() ? 'מעבר למצב בהיר' : 'מעבר למצב כהה'"
+      (onClick)="toggleTheme()" />
+  </aside>
+
+  <main>
+    <router-outlet />
+  </main>
+</div>

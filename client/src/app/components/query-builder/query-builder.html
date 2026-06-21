@@ -1,0 +1,69 @@
+<p-card header="בניית שאילתה">
+  <div class="grid">
+    <div class="field">
+      <label>מדד</label>
+      <p-select [options]="state.metadata()?.metrics ?? []" optionLabel="label" optionValue="code"
+                [(ngModel)]="metricCode" (ngModelChange)="onChange()" placeholder="בחר מדד" />
+    </div>
+
+    <div class="field">
+      <label>מגדר</label>
+      <p-select [options]="dimValues('gender')" [(ngModel)]="gender" (ngModelChange)="onChange()"
+                [showClear]="true" placeholder="הכל" />
+    </div>
+
+    <div class="field">
+      <label>עיר</label>
+      <p-select [options]="dimValues('city')" [(ngModel)]="city" (ngModelChange)="onChange()"
+                [showClear]="true" placeholder="הכל" />
+    </div>
+
+    <div class="field">
+      <label>מגזר</label>
+      <p-select [options]="dimValues('sector')" [(ngModel)]="sector" (ngModelChange)="onChange()"
+                [showClear]="true" placeholder="הכל" />
+    </div>
+
+    <div class="field">
+      <label>קבוצת גיל</label>
+      <p-select [options]="dimValues('ageGroup')" [(ngModel)]="ageGroup" (ngModelChange)="onChange()"
+                [showClear]="true" placeholder="הכל" />
+    </div>
+
+    <div class="field">
+      <label>סוג תקופה</label>
+      <p-select [options]="periodKinds" optionLabel="label" optionValue="value"
+                [(ngModel)]="periodKind" (ngModelChange)="onChange()" />
+    </div>
+
+    <div class="field">
+      <label>{{ periodKind === 'SingleYear' ? 'שנה' : 'משנה' }}</label>
+      <p-select [options]="yearOptions" [(ngModel)]="fromYear" (ngModelChange)="onChange()" />
+    </div>
+
+    @if (periodKind === 'Range') {
+      <div class="field">
+        <label>עד שנה</label>
+        <p-select [options]="yearOptions" [(ngModel)]="toYear" (ngModelChange)="onChange()" />
+      </div>
+    }
+
+    <div class="field">
+      <label>פילוח לפי</label>
+      <p-multiSelect [options]="breakdownOptions" optionLabel="label" optionValue="value"
+                     [(ngModel)]="breakdowns" (ngModelChange)="onChange()" placeholder="ללא פילוח" />
+    </div>
+  </div>
+
+  <div class="actions">
+    <p-button label="הרץ שאילתה" icon="pi pi-play" (onClick)="execute()" [loading]="state.loading()" />
+    <div class="save-box">
+      <input pInputText placeholder="שם לשמירה" [ngModel]="saveName()" (ngModelChange)="saveName.set($event)" />
+      <p-button label="שמור" icon="pi pi-save" severity="secondary" (onClick)="save()" />
+    </div>
+  </div>
+
+  @if (state.error()) {
+    <div style="color: var(--p-red-500); margin-top: .75rem;">{{ state.error() }}</div>
+  }
+</p-card>

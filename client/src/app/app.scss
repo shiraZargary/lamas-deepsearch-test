@@ -1,0 +1,102 @@
+.layout {
+  display: flex;
+  flex-direction: row;
+  direction: rtl;
+  min-height: 100vh;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 250px;
+  flex-shrink: 0;
+  padding: 1.25rem 1rem;
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  height: 100vh;
+  /* gov.il-style deep-blue chrome */
+  background: linear-gradient(180deg, var(--p-primary-700), var(--p-primary-900));
+  color: #fff;
+  box-shadow: 0 0 18px rgb(0 0 0 / 20%);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 1.05rem;
+  line-height: 1.25;
+  color: #fff;
+  padding: .25rem .1rem 1rem;
+  border-bottom: 1px solid rgb(255 255 255 / 20%);
+}
+
+/* Logo on a white badge so the colored mark always has contrast on blue. */
+.brand-logo {
+  height: 40px;
+  width: auto;
+  display: block;
+  flex-shrink: 0;
+  background: #fff;
+  padding: 5px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 20%);
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    text-decoration: none;
+    color: rgb(255 255 255 / 82%);
+    font-weight: 600;
+    padding: .65rem .85rem;
+    border-radius: 10px;
+    transition: color .15s ease, background-color .15s ease;
+
+    i { font-size: 1.05rem; }
+
+    &:hover {
+      color: #fff;
+      background: rgb(255 255 255 / 12%);
+    }
+
+    /* Active item inverts: white pill, blue text (gov.il pattern). */
+    &.active {
+      color: var(--p-primary-700);
+      background: #fff;
+      font-weight: 700;
+    }
+  }
+}
+
+.theme-toggle {
+  margin-top: auto;
+
+  ::ng-deep .p-button {
+    color: #fff;
+
+    &:hover {
+      background: rgb(255 255 255 / 12%);
+      color: #fff;
+    }
+  }
+}
+
+main {
+  flex: 1;
+  min-width: 0;
+  direction: rtl;
+  padding: 1.5rem 2rem;
+  box-sizing: border-box;
+}

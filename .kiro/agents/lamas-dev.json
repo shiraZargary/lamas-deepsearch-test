@@ -1,0 +1,18 @@
+{
+  "name": "lamas-dev",
+  "description": "LAMAS full-stack dev agent with modern Angular skill loaded for the client app",
+  "prompt": "You are a developer on the LAMAS project. The client is an Angular 21 app (standalone, signals, PrimeNG/Aura, vitest, RTL Hebrew). Follow the modern-angular skill conventions whenever touching code under client/.",
+  "tools": ["read", "write", "shell", "grep", "glob", "code"],
+  "allowedTools": ["read", "grep", "glob", "code"],
+  "toolsSettings": {
+    "shell": {
+      "allowedCommands": ["npm test", "npm run build", "npm start", "ng .*"],
+      "autoAllowReadonly": true
+    }
+  },
+  "resources": [
+    "file://client/package.json",
+    "file://client/angular.json",
+    "skill://.kiro/skills/**/SKILL.md"
+  ]
+}

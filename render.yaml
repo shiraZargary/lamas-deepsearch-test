@@ -1,0 +1,45 @@
+# Render blueprint for the LAMAS / Deep Search solution.
+# Deploy: push this repo to GitHub, then in Render → "New +" → "Blueprint" and
+# point it at the repo. Database is MongoDB Atlas (created separately, free M0).
+#
+# After the first deploy, set the two `sync: false` secrets in the Render dashboard:
+#   - MongoDb__ConnectionString  = your Atlas SRV connection string (incl. db user/password)
+#   - Cors__AllowedOrigins__0    = the deployed client URL (e.g. https://lamas-client.onrender.com)
+# If Render assigns the API a host other than lamas-api.onrender.com, update
+# client/src/environments/environment.prod.ts to match, then redeploy the client.
+
+services:
+  # ---- .NET 9 Web API (Docker) ----
+  - type: web
+    name: lamas-api
+    runtime: docker
+    plan: free
+    rootDir: server
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: MongoDb__Database
+        value: deepsearch
+      - key: FreeSearch__Provider
+        value: RuleBased
+      - key: MongoDb__ConnectionString
+        sync: false   # set in dashboard (Atlas SRV string) — secret
+      - key: Cors__AllowedOrigins__0
+        sync: false   # set in dashboard to the client URL
+
+  # ---- Angular static site ----
+  - type: web
+    name: lamas-client
+    runtime: static
+    plan: free
+    rootDir: client
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist/client/browser
+    routes:
+      # SPA fallback so deep links (e.g. /saved) resolve to index.html.
+      - type: rewrite
+        source: /*
+        destination: /index.html

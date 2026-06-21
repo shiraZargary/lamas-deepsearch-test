@@ -1,0 +1,27 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: deepsearch-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+      # Mounted init scripts run once on first startup (empty data dir):
+      - ./db/init-collections.js:/docker-entrypoint-initdb.d/01-init-collections.js:ro
+      - ./db/seed.js:/docker-entrypoint-initdb.d/02-seed.js:ro
+
+  mongo-express:
+    image: mongo-express:1.0.2
+    container_name: deepsearch-mongo-express
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_BASICAUTH: "false"
+    depends_on:
+      - mongo
+
+volumes:
+  mongo-data:
